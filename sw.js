@@ -1,39 +1,43 @@
-const CACHE_NAME = 'assunnah-pwa-v5';
-const ASSETS = [
+const CACHE_NAME = 'assunnah-pwa-v6';
+const OFFLINE_ASSETS = [
   './',
   './index.html',
-  './app.css',
   './manifest.json',
-  './icon-192.png',
-  './icon-512.png',
-  './apple-touch-icon.png',
-  './favicon.png',
-  './logo.png'
+  './app.css?v=6',
+  './logo.png',
+  './favicon.png?v=6',
+  './apple-touch-icon.png?v=6',
+  './icon-192.png?v=6',
+  './icon-512.png?v=6'
 ];
 
-self.addEventListener('install', event => {
+self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS)).then(() => self.skipWaiting())
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(OFFLINE_ASSETS))
   );
+  self.skipWaiting();
 });
 
-self.addEventListener('activate', event => {
+self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then(keys => Promise.all(
-      keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))
-    )).then(() => self.clients.claim())
+    caches.keys().then((keys) =>
+      Promise.all(keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k)))
+    )
   );
+  self.clients.claim();
 });
 
-self.addEventListener('fetch', event => {
+self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
   event.respondWith(
-    fetch(event.request).then(resp => {
-      if (resp && resp.status === 200 && resp.type === 'basic') {
-        const clone = resp.clone();
-        caches.open(CACHE_NAME).then(c => c.put(event.request, clone));
-      }
-      return resp;
-    }).catch(() => caches.match(event.request, { ignoreSearch: true }))
+    fetch(event.request)
+      .then((response) => {
+        if (response && response.status === 200) {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+        }
+        return response;
+      })
+      .catch(() => caches.match(event.request, { ignoreSearch: true }) || caches.match('./index.html'))
   );
 });

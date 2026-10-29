@@ -11,12 +11,12 @@
   <meta name="apple-mobile-web-app-title" content="As-Sunnah">
   <title>As-Sunnah Mobile App (৳)</title>
   
-    <link rel="icon" type="image/png" sizes="64x64" href="./favicon.png?v=5">
-    <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png?v=5">
-    <link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png?v=5">
-    <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png?v=5">
-    <link rel="manifest" href="./manifest.json?v=5">
-    <link rel="stylesheet" href="./app.css?v=5">
+    <link rel="icon" type="image/png" sizes="64x64" href="./favicon.png?v=6">
+    <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png?v=6">
+    <link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png?v=6">
+    <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png?v=6">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="stylesheet" href="./app.css?v=6">
   
   <script>
     (function() {
@@ -598,34 +598,35 @@
   </div>
 </div>
 
-<!-- INSTALL APP INSTRUCTION MODAL (FOR ANDROID CHROME & IOS SAFARI) -->
+<!-- INSTALL APP INSTRUCTION MODAL (SMART DEVICE-AWARE FOR ANDROID & IOS) -->
 <div class="modal-backdrop" id="installGuideModal">
   <div class="modal-box" style="max-width:420px;">
     <div class="modal-header">
-      <div class="card-title">📲 Install As-Sunnah App on Mobile</div>
+      <div class="card-title">📲 Install As-Sunnah App</div>
       <button type="button" class="btn btn-outline btn-sm" onclick="document.getElementById('installGuideModal').classList.remove('open')">✕</button>
     </div>
     <div class="modal-body" style="font-size:0.86rem; line-height:1.6;">
       <div style="text-align:center; margin-bottom:14px;">
-        <img src="./icon-192.png?v=5" alt="App Icon" style="width:72px; height:72px; border-radius:14px;">
+        <img src="./icon-192.png?v=6" alt="App Icon" style="width:72px; height:72px; border-radius:14px;">
         <div style="font-weight:800; margin-top:6px;">As-Sunnah Hajj &amp; Umrah Kafila</div>
         <div style="font-size:0.75rem; color:var(--text-muted);">Works Offline &amp; Auto-Syncs when Server is ON</div>
       </div>
-      <div style="background:var(--bg-surface-alt); padding:10px 12px; border-radius:10px; margin-bottom:8px; border:1px solid var(--border-color);">
-        <strong>🤖 On Android (Chrome / Samsung Internet / Edge):</strong>
-        <ol style="margin-left:18px; margin-top:4px;">
-          <li>Tap the browser menu <strong>⋮ (three dots)</strong> at the top-right.</li>
-          <li>Tap <strong>"Install app"</strong> or <strong>"Add to Home screen"</strong>.</li>
-        </ol>
+
+      <!-- ANDROID DIRECT CHROME JUMP BUTTON (ESCAPES QR SCANNER PREVIEW WINDOWS WITH NO 3-DOTS) -->
+      <div id="androidChromeJumpBox" style="background:linear-gradient(90deg, rgba(245,184,0,0.22), rgba(10,34,89,0.08)); padding:12px; border-radius:10px; margin-bottom:10px; border:2px solid var(--brand-gold); text-align:center;">
+        <div style="font-weight:800; font-size:0.84rem; margin-bottom:6px;">
+          🤖 Scanned with QR Scanner &amp; don't see Chrome's ⋮ menu?
+        </div>
+        <a href="#" id="openInChromeIntentBtn" onclick="openInAndroidChrome(); return false;" class="btn btn-gold" style="width:100%; justify-content:center; padding:10px 12px; font-weight:800;">
+          🚀 Open in Google Chrome to Install
+        </a>
+        <div style="font-size:0.73rem; color:var(--text-secondary); margin-top:6px;">
+          Once opened in Chrome, tap <strong>Install App</strong> (or Chrome's top-right <strong>⋮ &rarr; Install app / Add to Home screen</strong>).<br>
+          <em>Note: If you already installed it earlier, check your Android Home Screen / App Drawer for <strong>As-Sunnah</strong>!</em>
+        </div>
       </div>
-      <div style="background:var(--bg-surface-alt); padding:10px 12px; border-radius:10px; margin-bottom:8px; border:1px solid var(--border-color);">
-        <strong>🦊 On Android (Mozilla Firefox):</strong>
-        <ol style="margin-left:18px; margin-top:4px;">
-          <li>Tap the Firefox menu <strong>⋮ (three dots)</strong>.</li>
-          <li>Tap <strong>"Install"</strong> or <strong>"Add app to Home screen"</strong>.</li>
-        </ol>
-      </div>
-      <div style="background:var(--bg-surface-alt); padding:10px 12px; border-radius:10px; border:1px solid var(--border-color);">
+
+      <div id="iosInstallBox" style="background:var(--bg-surface-alt); padding:10px 12px; border-radius:10px; border:1px solid var(--border-color);">
         <strong>🍎 On iPhone / iPad (Safari):</strong>
         <ol style="margin-left:18px; margin-top:4px;">
           <li>Tap the <strong>Share button (⬆️)</strong> at the bottom of Safari.</li>
@@ -637,6 +638,15 @@
 </div>
 
 <script>
+  // Save Office PC Server URL from QR Code (?server=http://...) into mobile localStorage automatically
+  const _urlParams = new URLSearchParams(window.location.search);
+  const _qrServerParam = (_urlParams.get('server') || '').trim();
+  if (_qrServerParam && (_qrServerParam.startsWith('http://') || _qrServerParam.startsWith('https://'))) {
+    try {
+      localStorage.setItem('assunnah_server_origin', _qrServerParam.replace(/\/+$/, ''));
+    } catch (e) {}
+  }
+
   // Load initial Last 50 Clients from server, and persist in mobile localStorage so it works when server is OFF
   let serverBookings = ([{"id": 4, "code": "UM-F2026-004", "name": "Dr. Shafiqur Rahman & Family", "phone": "01615889900", "package_type": "UMRAH", "package_display": "Umrah Package", "booking_category": "FAMILY", "pax_count": 3, "booking_date": "18 May 2026", "label": "UM-F2026-004 \u2014 Dr. Shafiqur Rahman & Family (Umrah Package \u2022 Family 3 Pax)"}, {"id": 3, "code": "UM-S2026-003", "name": "Md. Rafiqul Islam", "phone": "01912334455", "package_type": "UMRAH", "package_display": "Umrah Package", "booking_category": "SINGLE", "pax_count": 1, "booking_date": "05 Apr 2026", "label": "UM-S2026-003 \u2014 Md. Rafiqul Islam (Umrah Package \u2022 Single)"}, {"id": 2, "code": "HJ-F2026-002", "name": "Alhajj Enamul Haque & Family", "phone": "01819445566", "package_type": "HAJJ", "package_display": "Hajj Package", "booking_category": "FAMILY", "pax_count": 4, "booking_date": "10 Mar 2026", "label": "HJ-F2026-002 \u2014 Alhajj Enamul Haque & Family (Hajj Package \u2022 Family 4 Pax)"}, {"id": 1, "code": "HJ-S2026-001", "name": "Alhajj Md. Mahmudul Hasan", "phone": "01711223344", "package_type": "HAJJ", "package_display": "Hajj Package", "booking_category": "SINGLE", "pax_count": 1, "booking_date": "15 Feb 2026", "label": "HJ-S2026-001 \u2014 Alhajj Md. Mahmudul Hasan (Hajj Package \u2022 Single)"}]).slice(0, 50);
   if (serverBookings && serverBookings.length > 0) {
@@ -649,11 +659,42 @@
   }
   let allBookings = serverBookings;
   let deferredInstallPrompt = null;
+  let isAlreadyInstalledOnDevice = false;
   let sessionHistory = [];
+
+  function isAndroidDevice() {
+    return /android/i.test(navigator.userAgent || '');
+  }
+
+  function isIOSDevice() {
+    return /iphone|ipad|ipod/i.test(navigator.userAgent || '') ||
+           (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  }
+
+  function isAndroidEmbeddedWebView() {
+    const ua = navigator.userAgent || '';
+    if (!isAndroidDevice()) return false;
+    return /; wv\)|Version\/\d+\.\d+.*Chrome\/|GSA\/|FBAN|FBAV|Instagram|Line\/|WhatsApp|MicroMessenger|Snapchat/i.test(ua);
+  }
 
   function isRunningStandalone() {
     return (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
-           window.navigator.standalone === true;
+           window.navigator.standalone === true ||
+           (document.referrer || '').startsWith('android-app://');
+  }
+
+  function buildChromeIntentUrl() {
+    const savedSrv = localStorage.getItem('assunnah_server_origin') || _qrServerParam || '';
+    const q = new URLSearchParams();
+    q.set('in_chrome', '1');
+    if (savedSrv) q.set('server', savedSrv);
+    const targetHttps = 'https://mchoudhury1963.github.io/as-sunnah-mobile/?' + q.toString();
+    const hostAndPath = 'mchoudhury1963.github.io/as-sunnah-mobile/?' + q.toString();
+    return 'intent://' + hostAndPath + '#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=' + encodeURIComponent(targetHttps) + ';end';
+  }
+
+  function openInAndroidChrome() {
+    window.location.href = buildChromeIntentUrl();
   }
 
   function dismissInstallBanner() {
@@ -662,27 +703,64 @@
   }
 
   if (isRunningStandalone()) {
+    isAlreadyInstalledOnDevice = true;
     dismissInstallBanner();
+  } else if (isAndroidDevice() && isAndroidEmbeddedWebView() && !_urlParams.get('in_chrome')) {
+    // Automatically jump out of Android QR Scanner WebView straight into real Google Chrome
+    setTimeout(() => {
+      window.location.replace(buildChromeIntentUrl());
+    }, 150);
   }
 
-  // Register Service Worker for Offline App Mode (HTTPS GitHub Pages or Local Server)
+  // Check if WebAPK is already installed on this Android phone/tab
+  if ('getInstalledRelatedApps' in navigator) {
+    navigator.getInstalledRelatedApps().then((apps) => {
+      if (apps && apps.length > 0) {
+        isAlreadyInstalledOnDevice = true;
+        dismissInstallBanner();
+      }
+    }).catch(function() {});
+  }
+
+  // Tailor install modal sections to Android vs iOS so there is zero confusion
+  (function setupInstallModalForOS() {
+    const andBox = document.getElementById('androidChromeJumpBox');
+    const iosBox = document.getElementById('iosInstallBox');
+    if (isIOSDevice() && !isAndroidDevice()) {
+      if (andBox) andBox.style.display = 'none';
+      if (iosBox) iosBox.style.display = 'block';
+    } else if (isAndroidDevice()) {
+      if (andBox) andBox.style.display = 'block';
+      if (iosBox) iosBox.style.display = 'none';
+    }
+  })();
+
+  // Register Service Worker for Offline App Mode & force immediate update check to clear stale caches
   if ('serviceWorker' in navigator && (window.location.protocol === 'https:' || window.location.protocol === 'http:')) {
-    navigator.serviceWorker.register('./sw.js?v=5').catch(function() {});
+    navigator.serviceWorker.register('./sw.js')
+      .then(function(reg) { try { reg.update(); } catch (e) {} })
+      .catch(function() {});
   }
 
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredInstallPrompt = e;
-    if (!isRunningStandalone()) {
+    if (!isRunningStandalone() && !isAlreadyInstalledOnDevice) {
       const banner = document.getElementById('installBanner');
-      if (banner) banner.style.display = 'flex';
+      if (banner) {
+        banner.style.display = 'flex';
+        const btn = banner.querySelector('button.btn-primary');
+        if (btn) btn.innerText = '📲 Install Now';
+      }
     }
   });
 
   window.addEventListener('appinstalled', () => {
     deferredInstallPrompt = null;
+    isAlreadyInstalledOnDevice = true;
     dismissInstallBanner();
-    showMobToast('✓ As-Sunnah App Installed on Home Screen!', true);
+    document.getElementById('installGuideModal').classList.remove('open');
+    showMobToast('✓ As-Sunnah App Installed on Your Home Screen!', true);
   });
 
   function installMobilePWA() {
@@ -690,13 +768,24 @@
       deferredInstallPrompt.prompt();
       deferredInstallPrompt.userChoice.then((choice) => {
         if (choice && choice.outcome === 'accepted') {
+          isAlreadyInstalledOnDevice = true;
           dismissInstallBanner();
         }
         deferredInstallPrompt = null;
       });
-    } else {
-      document.getElementById('installGuideModal').classList.add('open');
+      return;
     }
+    if (isRunningStandalone() || isAlreadyInstalledOnDevice) {
+      dismissInstallBanner();
+      showMobToast('✓ As-Sunnah App is already installed on this device! Check your Home Screen / App Drawer.', true);
+      return;
+    }
+    // If on Android inside a QR Scanner / Custom Tab (where 3-dots & beforeinstallprompt are blocked), jump straight to Chrome!
+    if (isAndroidDevice() && !_urlParams.get('in_chrome')) {
+      openInAndroidChrome();
+      return;
+    }
+    document.getElementById('installGuideModal').classList.add('open');
   }
 
   function toggleMobTheme() {
@@ -894,14 +983,19 @@
     });
   }
 
-  const SYNC_ENDPOINTS = [
-    '/api/mobile-sync/',
-    'http://192.168.0.144:8000/api/mobile-sync/',
-    'http://192.168.137.1:8000/api/mobile-sync/'
-  ];
+  function getSyncEndpoints() {
+    const list = ['/api/mobile-sync/'];
+    try {
+      const savedOrigin = localStorage.getItem('assunnah_server_origin');
+      if (savedOrigin) list.push(savedOrigin.replace(/\/+$/, '') + '/api/mobile-sync/');
+    } catch (e) {}
+    list.push('http://192.168.0.144:8000/api/mobile-sync/');
+    list.push('http://192.168.137.1:8000/api/mobile-sync/');
+    return [...new Set(list)];
+  }
 
   async function fetchSyncApi(options) {
-    for (const url of SYNC_ENDPOINTS) {
+    for (const url of getSyncEndpoints()) {
       if ((window.location.protocol === 'file:' || window.location.protocol === 'content:' || window.location.hostname.endsWith('github.io')) && url.startsWith('/')) continue;
       try {
         const resp = await fetch(url, options);

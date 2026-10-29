@@ -1,14 +1,21 @@
 {
   "id": "./",
-  "name": "As-Sunnah Hajj & Umrah Kafila",
+  "name": "As-Sunnah Hajj & Umrah \u2014 Mobile Sync",
   "short_name": "As-Sunnah",
-  "description": "Offline Input & Bill Upload App for As-Sunnah Hajj & Umrah Kafila",
+  "description": "As-Sunnah Travels & Tours Offline-Capable Mobile Entry & Sync App",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "orientation": "any",
+  "orientation": "portrait",
   "background_color": "#0a2259",
   "theme_color": "#0a2259",
+  "prefer_related_applications": false,
+  "related_applications": [
+    {
+      "platform": "webapp",
+      "url": "https://mchoudhury1963.github.io/as-sunnah-mobile/manifest.json"
+    }
+  ],
   "icons": [
     {
       "src": "./icon-192.png",
