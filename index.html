@@ -1,0 +1,1130 @@
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0a2259">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="As-Sunnah">
+  <title>As-Sunnah Mobile App (৳)</title>
+  
+    <link rel="icon" type="image/png" sizes="64x64" href="./favicon.png?v=5">
+    <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png?v=5">
+    <link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png?v=5">
+    <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png?v=5">
+    <link rel="manifest" href="./manifest.json?v=5">
+    <link rel="stylesheet" href="./app.css?v=5">
+  
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('assunnah_theme') || 'light';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    })();
+  </script>
+  <style>
+    body {
+      padding-bottom: 85px;
+    }
+    .mob-shell {
+      max-width: 560px;
+      margin: 0 auto;
+    }
+    .mob-header {
+      background: linear-gradient(135deg, #0a2259 0%, #173785 100%);
+      color: #ffffff;
+      padding: 14px 16px;
+      border-bottom: 3px solid var(--brand-gold);
+      position: sticky;
+      top: 0;
+      z-index: 95;
+      box-shadow: var(--shadow-md);
+    }
+    .mob-header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .mob-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+    .mob-brand img {
+      width: 96px;
+      height: 42px;
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 3px 6px;
+      border: 2px solid var(--brand-gold);
+      object-fit: contain;
+      image-rendering: -webkit-optimize-contrast;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22);
+      flex-shrink: 0;
+    }
+    .mob-brand h1 {
+      font-size: 0.94rem;
+      font-weight: 800;
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .mob-brand p {
+      font-size: 0.7rem;
+      color: var(--brand-gold);
+      font-weight: 700;
+    }
+    .install-banner {
+      background: linear-gradient(90deg, rgba(245, 184, 0, 0.2), rgba(10, 34, 89, 0.12));
+      border: 2px solid var(--brand-gold);
+      border-radius: 14px;
+      padding: 12px 14px;
+      margin: 12px 14px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .sync-bar-card {
+      background: var(--bg-surface);
+      border: 1.5px solid var(--border-color);
+      border-radius: 12px;
+      padding: 10px 14px;
+      margin: 10px 14px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      box-shadow: var(--shadow-sm);
+    }
+    .sync-bar-card.has-pending {
+      background: var(--color-office-bg);
+      border-color: var(--color-office);
+    }
+    .mob-tabs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 7px;
+      padding: 12px 14px;
+    }
+    .mob-tab-btn {
+      background: var(--bg-surface);
+      color: var(--text-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 10px 4px;
+      font-size: 0.74rem;
+      font-weight: 800;
+      cursor: pointer;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.15s ease;
+    }
+    .mob-tab-btn.active {
+      background: #0a2259;
+      color: #ffffff;
+      border-color: var(--brand-gold);
+      box-shadow: 0 4px 12px rgba(10, 34, 89, 0.25);
+    }
+    [data-theme="dark"] .mob-tab-btn.active {
+      background: #2563eb;
+    }
+    .camera-dropzone {
+      border: 2px dashed var(--brand-gold);
+      background: var(--bg-surface-alt);
+      border-radius: 14px;
+      padding: 18px;
+      text-align: center;
+      cursor: pointer;
+      position: relative;
+    }
+    .camera-dropzone input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #34d399;
+    }
+    .dot.offline {
+      background: #fbbf24;
+    }
+    .client-item-card {
+      background: var(--bg-surface-alt);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+<div class="mob-shell">
+  <!-- MOBILE TOP HEADER WITH SHARP AS-SUNNAH LOGO -->
+  <header class="mob-header">
+    <div class="mob-header-top">
+      <div class="mob-brand">
+        <img src="./logo.png?v=5" alt="As-Sunnah">
+        <div>
+          <h1>As-Sunnah Hajj &amp; Umrah Kafila</h1>
+          <p>📲 Mobile &amp; Tab Input App (BDT ৳)</p>
+        </div>
+      </div>
+
+      <div style="display:flex; align-items:center; gap:6px; flex-shrink:0;">
+        <button type="button" onclick="toggleMobTheme()" class="btn btn-outline btn-sm" style="background:rgba(255,255,255,0.12); color:#fff; border-color:rgba(255,255,255,0.25); padding:6px 10px;" id="mobThemeBtn" title="Switch Dark / Light Mode">
+          🌙
+        </button>
+      </div>
+    </div>
+
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-top:10px; font-size:0.74rem;">
+      <div class="status-pill" id="wifiStatusPill">
+        <span class="dot" id="wifiDot"></span>
+        <span id="wifiStatusText">Connected to Computer Wi-Fi</span>
+      </div>
+      <span>👥 Last <strong id="clientCountBadge">50</strong> Clients</span>
+    </div>
+  </header>
+
+  <!-- SINGLE INSTALL APP BANNER (AUTO-HIDES ONCE INSTALLED) -->
+  <div class="install-banner" id="installBanner">
+    <div style="min-width:0; flex:1;">
+      <div style="font-weight:800; font-size:0.86rem;">📲 Install As-Sunnah App on this Phone/Tab</div>
+      <div style="font-size:0.74rem; color:var(--text-secondary);">Works even when server is OFF — saves in mobile &amp; syncs when reachable!</div>
+    </div>
+    <div style="display:flex; align-items:center; gap:6px; flex-shrink:0;">
+      <button type="button" class="btn btn-primary btn-sm" onclick="installMobilePWA()">
+        Install App
+      </button>
+      <button type="button" class="btn btn-outline btn-sm" style="padding:5px 8px;" onclick="dismissInstallBanner()" title="Hide Install Banner">✕</button>
+    </div>
+  </div>
+
+  <!-- ALWAYS-VISIBLE MOBILE OFFLINE SAVE & SYNC CONTROL BAR -->
+  <div class="sync-bar-card" id="offlineQueueBar" style="flex-wrap:wrap;">
+    <div style="flex:1; min-width:180px;">
+      <div style="font-weight:800; font-size:0.83rem;" id="queueTitleText">
+        💾 Saved in Mobile Queue: <span id="queueCount">0</span> Pending Update(s)
+      </div>
+      <div style="font-size:0.72rem; color:var(--text-secondary);" id="queueSubText">
+        If server is OFF, entries stay saved in mobile &amp; auto-sync when server is reachable.
+      </div>
+    </div>
+    <div style="display:flex; gap:6px; flex-shrink:0;">
+      <button type="button" class="btn btn-gold btn-sm" onclick="syncOfflineQueue(true)">
+        🔄 Sync Now
+      </button>
+      <button type="button" class="btn btn-outline btn-sm" onclick="exportOfflineSyncFile()" title="Download Sync File to send via WhatsApp / USB">
+        📥 Export File
+      </button>
+    </div>
+  </div>
+
+  <!-- TOAST MESSAGE -->
+  <div id="mobToast" style="display:none; margin:12px 14px 0; padding:12px 14px; border-radius:12px; font-weight:700; font-size:0.86rem;"></div>
+
+  <!-- 4 TABS -->
+  <div class="mob-tabs">
+    <button type="button" class="mob-tab-btn active" id="tabBtnExpense" onclick="switchMobTab('EXPENSE')">
+      <span style="font-size:1.15rem;">🧾</span>
+      <span>Expenditures</span>
+    </button>
+    <button type="button" class="mob-tab-btn" id="tabBtnIncome" onclick="switchMobTab('INCOME')">
+      <span style="font-size:1.15rem;">৳</span>
+      <span>Payment</span>
+    </button>
+    <button type="button" class="mob-tab-btn" id="tabBtnBooking" onclick="switchMobTab('BOOKING')">
+      <span style="font-size:1.15rem;">👤+</span>
+      <span>New Booking</span>
+    </button>
+    <button type="button" class="mob-tab-btn" id="tabBtnClients" onclick="switchMobTab('CLIENTS')">
+      <span style="font-size:1.15rem;">👥</span>
+      <span>Last 50 Clients</span>
+    </button>
+  </div>
+
+  <div style="padding: 0 14px;">
+    <!-- TAB 1: UPLOAD EXPENDITURE & BILL -->
+    <div class="card" id="panelExpense">
+      <div class="card-header">
+        <div class="card-title">🧾 Upload Expenditure Bill</div>
+      </div>
+      <div class="card-body">
+        <form id="mobExpenseForm" onsubmit="submitMobExpense(event)">
+          <div class="form-group">
+            <label class="form-label">1. Expenditure Category *</label>
+            <select id="mobExpCategory" class="form-control" onchange="onMobCategoryChange()" required>
+              
+                <option value="HJ_01_TICKET">1. Hajj Ticket</option>
+              
+                <option value="HJ_02_RETURN_EXTRA">2. Return Extra Ticket</option>
+              
+                <option value="HJ_03_RESERVED_TRANS">3. Reserved Transport</option>
+              
+                <option value="HJ_04_MAKKAH_HOTEL">4. Makkah Hotel</option>
+              
+                <option value="HJ_05_SHISHA_HOTEL">5. Shisha Hotel</option>
+              
+                <option value="HJ_06_MADINAH_HOTEL">6. Madinah Hotel</option>
+              
+                <option value="HJ_07_SAUDI_MOALLEM">7. Saudi Moallem Cost</option>
+              
+                <option value="HJ_08_VISA_INS_KSA">8. Visa / Insurance / KSA Service</option>
+              
+                <option value="HJ_09_TRANSPORT_ROUTE">9. Transport Route Cost</option>
+              
+                <option value="HJ_10_FOOD">10. Food Cost</option>
+              
+                <option value="HJ_11_BD_SERVICE">11. BD Service Cost</option>
+              
+                <option value="HJ_12_TRAINING_GIFT">12. Training and Gift Cost</option>
+              
+                <option value="HJ_13_GUIDE">13. Guide Cost</option>
+              
+                <option value="HJ_14_LEAD_AGENCY">14. Lead Agency Service Cost</option>
+              
+                <option value="HJ_15_KSA_MISC">15. KSA Miscellaneous Cost</option>
+              
+                <option value="HJ_16_BD_MISC">16. BD Miscellaneous Cost</option>
+              
+                <option value="1_AIR_TICKET">1. Air Ticket (Umrah)</option>
+              
+                <option value="2_VISA">2. Visa (Umrah)</option>
+              
+                <option value="3_MAKKAH_HOTEL">3. Makkah Hotel (Umrah)</option>
+              
+                <option value="4_MADINAH_HOTEL">4. Madinah Hotel (Umrah)</option>
+              
+                <option value="5_TRANSPORT">5. Transport (Routes a–h)</option>
+              
+                <option value="6_OTHERS">6. Others Cost (Umrah)</option>
+              
+                <option value="OFFICE_HARDWARE">Hardware Purchase</option>
+              
+                <option value="OFFICE_LICENCE">Licence Fees</option>
+              
+                <option value="OFFICE_STATIONERY">Office Stationery</option>
+              
+                <option value="OFFICE_DAILY_RECON">Office Daily Expense (Added After Reconcile)</option>
+              
+                <option value="OFFICE_RENT">Office Rent (Songhita Market, Mirpur-1)</option>
+              
+                <option value="OFFICE_SALARY">Staff Salary &amp; Honorarium</option>
+              
+                <option value="OFFICE_UTILITY">Utilities (Electricity, Internet, Phone)</option>
+              
+                <option value="OFFICE_MARKETING">Marketing &amp; Promotional Cost</option>
+              
+                <option value="OFFICE_MISC">Office Entertainment &amp; Miscellaneous</option>
+              
+            </select>
+          </div>
+
+          <div class="form-group" id="mobRouteGroup" style="display:none;">
+            <label class="form-label">5. Select Transport Route (a – h) *</label>
+            <select id="mobTransportRoute" class="form-control">
+              
+                <option value="">— Select Transport Route (Optional / Routes a–h) —</option>
+              
+                <option value="5A_JED_MAK">a. Jeddah Airport to Makkah Hotel</option>
+              
+                <option value="5B_MAK_MAD">b. Makkah Hotel to Madinah Hotel</option>
+              
+                <option value="5C_MAD_MADAIR">c. Madinah Hotel to Madinah Airport</option>
+              
+                <option value="5D_MAK_ZIYARA">d. Makkah Ziyara</option>
+              
+                <option value="5E_MADAIR_MAD">e. Madinah Airport to Madinah Hotel</option>
+              
+                <option value="5F_MAD_MAK">f. Madinah Hotel to Makkah Hotel</option>
+              
+                <option value="5G_MAK_JED">g. Makkah Hotel to Jeddah Airport</option>
+              
+                <option value="5H_MAD_ZIYARA">h. Madinah Ziyara</option>
+              
+            </select>
+          </div>
+
+          <div id="mobClientSelectGroup">
+            <div class="form-group">
+              <label class="form-label">2. Filter Last 50 Clients (Hajj / Umrah &amp; Single / Family)</label>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                <select id="mobFilterPkg" class="form-control" onchange="filterMobBookings()">
+                  <option value="">All (Hajj &amp; Umrah)</option>
+                  <option value="HAJJ">🕋 Hajj Only</option>
+                  <option value="UMRAH">🌙 Umrah Only</option>
+                </select>
+                <select id="mobFilterCat" class="form-control" onchange="filterMobBookings()">
+                  <option value="">Single &amp; Family</option>
+                  <option value="SINGLE">👤 Single Person</option>
+                  <option value="FAMILY">👨‍👩‍👧‍👦 Family Group</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <label class="form-label">3. Select Client Booking (Last 50 Clients)</label>
+                <span class="badge badge-single" style="font-size:0.68rem;">Last 50 Clients</span>
+              </div>
+              <select id="mobExpBookingId" class="form-control" onchange="onMobBookingPicked()">
+                <option value="">— General Package Expenditure —</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <div class="form-group">
+              <label class="form-label">Per-Person Cost (৳)</label>
+              <input type="number" step="0.01" id="mobExpPP" class="form-control" placeholder="Optional" oninput="calcMobExpTotal()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Persons (Pax)</label>
+              <input type="number" id="mobExpPax" value="1" min="1" class="form-control" oninput="calcMobExpTotal()">
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <div class="form-group">
+              <label class="form-label">Total Bill Amount (৳) *</label>
+              <input type="number" step="0.01" id="mobExpAmount" class="form-control" placeholder="৳ Amount" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Payment Method</label>
+              <select id="mobExpMethod" class="form-control">
+                <option value="CASH">Cash (নগদ)</option>
+                <option value="BANK">Bank Transfer</option>
+                <option value="BKASH_NAGAD">bKash / Nagad</option>
+                <option value="CHEQUE">Cheque</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Vendor / Hotel / Airline &amp; Remarks</label>
+            <input type="text" id="mobExpVendor" class="form-control" placeholder="e.g. Makkah Hotel Bill / Saudia Ticket">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">📷 Capture or Upload Expenditure Bill (Camera / Gallery / PDF)</label>
+            <div class="camera-dropzone">
+              <input type="file" id="mobExpFile" accept="image/*,.pdf" capture="environment" onchange="previewMobBill(this)">
+              <div id="mobBillPreviewText">
+                <div style="font-size:1.8rem; margin-bottom:4px;">📷</div>
+                <div style="font-weight:800; font-size:0.86rem;">Tap to Take Photo of Bill or Choose File</div>
+                <div style="font-size:0.74rem; color:var(--text-muted);">Supports Phone Camera, Gallery Image, or PDF</div>
+              </div>
+              <img id="mobBillPreviewImg" style="display:none; max-height:170px; margin:8px auto 0; border-radius:8px;">
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-gold" style="width:100%; padding:13px; font-size:0.95rem;">
+            ✓ Save Expenditure &amp; Sync Bill (৳)
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- TAB 2: RECEIVE CLIENT PAYMENT (INCOME) -->
+    <div class="card" id="panelIncome" style="display:none;">
+      <div class="card-header">
+        <div class="card-title">৳ Record Client Payment (Gross Income)</div>
+      </div>
+      <div class="card-body">
+        <form id="mobIncomeForm" onsubmit="submitMobIncome(event)">
+          <div class="form-group">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <label class="form-label">Select Client Booking (Last 50 Clients) *</label>
+              <span class="badge badge-single" style="font-size:0.68rem;">Last 50 Clients</span>
+            </div>
+            <select id="mobIncBookingId" class="form-control" required>
+              <option value="">— Select Booking —</option>
+            </select>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <div class="form-group">
+              <label class="form-label">Amount Received (৳) *</label>
+              <input type="number" step="0.01" id="mobIncAmount" class="form-control" placeholder="৳ Amount" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Payment Method</label>
+              <select id="mobIncMethod" class="form-control">
+                <option value="CASH">Cash (নগদ)</option>
+                <option value="BANK">Bank Deposit</option>
+                <option value="BKASH_NAGAD">bKash / Nagad</option>
+                <option value="CHEQUE">Cheque</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Installment / Payment Note</label>
+            <input type="text" id="mobIncDesc" class="form-control" placeholder="e.g. Booking Advance / 2nd Installment">
+          </div>
+
+          <button type="submit" class="btn btn-success" style="width:100%; padding:13px; font-size:0.95rem;">
+            ✓ Save Payment &amp; Sync (৳)
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- TAB 3: NEW CLIENT / FAMILY BOOKING -->
+    <div class="card" id="panelBooking" style="display:none;">
+      <div class="card-header">
+        <div class="card-title">👤+ Register New Hajj / Umrah Booking</div>
+      </div>
+      <div class="card-body">
+        <form id="mobBookingForm" onsubmit="submitMobBooking(event)">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <div class="form-group">
+              <label class="form-label">Package Type *</label>
+              <select id="mobNewPkg" class="form-control">
+                <option value="HAJJ">🕋 Hajj Package</option>
+                <option value="UMRAH">🌙 Umrah Package</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Booking Category *</label>
+              <select id="mobNewCat" class="form-control" onchange="toggleMobNewFamily()">
+                <option value="SINGLE">👤 Single Person</option>
+                <option value="FAMILY">👨‍👩‍👧‍👦 Family Group</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Client / Family Head Name *</label>
+            <input type="text" id="mobNewName" class="form-control" placeholder="Full Name" required>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <div class="form-group">
+              <label class="form-label">Phone Number</label>
+              <input type="text" id="mobNewPhone" class="form-control" placeholder="01XXXXXXXXX">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Main Passport / NID</label>
+              <input type="text" id="mobNewPassport" class="form-control" placeholder="Passport No.">
+            </div>
+          </div>
+
+          <div id="mobNewPaxWrap" style="display:none; background:var(--bg-surface-alt); padding:10px; border-radius:10px; margin-bottom:12px; border:1px solid var(--border-color);">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;">
+              <div style="display:flex; align-items:center; gap:6px;">
+                <label class="form-label" style="margin:0;">Family Pax *:</label>
+                <input type="number" id="mobNewPax" value="2" min="2" max="50" class="form-control" style="width:72px;" oninput="syncMobNewMembers(this.value)">
+              </div>
+              <button type="button" class="btn btn-gold btn-sm" onclick="addMobNewMemberRow()">+ Member</button>
+            </div>
+            <div id="mobNewMembersList" style="display:flex; flex-direction:column; gap:6px;"></div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+            <div class="form-group">
+              <label class="form-label">Contracted Price (৳) *</label>
+              <input type="number" step="0.01" id="mobNewPrice" class="form-control" placeholder="৳ Total Price" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Advance Paid Now (৳)</label>
+              <input type="number" step="0.01" id="mobNewAdvance" value="0" class="form-control">
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width:100%; padding:13px; font-size:0.95rem;">
+            ✓ Save Booking &amp; Sync (৳)
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- TAB 4: LAST 50 CLIENTS DIRECTORY -->
+    <div class="card" id="panelClients" style="display:none;">
+      <div class="card-header">
+        <div>
+          <div class="card-title">👥 Last 50 Clients</div>
+          <div style="font-size:0.74rem; color:var(--text-muted);">Cached in mobile so you can select clients even when server is OFF</div>
+        </div>
+        <span class="badge badge-hajj" id="last50HeaderBadge">50 Clients</span>
+      </div>
+      <div class="card-body">
+        <div class="form-group">
+          <input type="text" id="mobClientSearch" class="form-control" placeholder="🔍 Search within Last 50 Clients (Name, Code, Phone)..." oninput="renderLast50ClientsList()">
+        </div>
+        <div id="last50ClientsContainer" style="max-height:420px; overflow-y:auto;"></div>
+      </div>
+    </div>
+
+    <!-- RECENT SUBMISSIONS & OFFLINE QUEUE LOG ON THIS PHONE -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">📋 Recent &amp; Queued Entries on This Mobile</div>
+      </div>
+      <div class="card-body" id="mobRecentLog" style="font-size:0.82rem; color:var(--text-secondary);">
+        No entries submitted in this session yet.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- INSTALL APP INSTRUCTION MODAL (FOR ANDROID CHROME & IOS SAFARI) -->
+<div class="modal-backdrop" id="installGuideModal">
+  <div class="modal-box" style="max-width:420px;">
+    <div class="modal-header">
+      <div class="card-title">📲 Install As-Sunnah App on Mobile</div>
+      <button type="button" class="btn btn-outline btn-sm" onclick="document.getElementById('installGuideModal').classList.remove('open')">✕</button>
+    </div>
+    <div class="modal-body" style="font-size:0.86rem; line-height:1.6;">
+      <div style="text-align:center; margin-bottom:14px;">
+        <img src="./icon-192.png?v=5" alt="App Icon" style="width:72px; height:72px; border-radius:14px;">
+        <div style="font-weight:800; margin-top:6px;">As-Sunnah Hajj &amp; Umrah Kafila</div>
+        <div style="font-size:0.75rem; color:var(--text-muted);">Works Offline &amp; Auto-Syncs when Server is ON</div>
+      </div>
+      <div style="background:var(--bg-surface-alt); padding:10px 12px; border-radius:10px; margin-bottom:8px; border:1px solid var(--border-color);">
+        <strong>🤖 On Android (Chrome / Samsung Internet / Edge):</strong>
+        <ol style="margin-left:18px; margin-top:4px;">
+          <li>Tap the browser menu <strong>⋮ (three dots)</strong> at the top-right.</li>
+          <li>Tap <strong>"Install app"</strong> or <strong>"Add to Home screen"</strong>.</li>
+        </ol>
+      </div>
+      <div style="background:var(--bg-surface-alt); padding:10px 12px; border-radius:10px; margin-bottom:8px; border:1px solid var(--border-color);">
+        <strong>🦊 On Android (Mozilla Firefox):</strong>
+        <ol style="margin-left:18px; margin-top:4px;">
+          <li>Tap the Firefox menu <strong>⋮ (three dots)</strong>.</li>
+          <li>Tap <strong>"Install"</strong> or <strong>"Add app to Home screen"</strong>.</li>
+        </ol>
+      </div>
+      <div style="background:var(--bg-surface-alt); padding:10px 12px; border-radius:10px; border:1px solid var(--border-color);">
+        <strong>🍎 On iPhone / iPad (Safari):</strong>
+        <ol style="margin-left:18px; margin-top:4px;">
+          <li>Tap the <strong>Share button (⬆️)</strong> at the bottom of Safari.</li>
+          <li>Scroll down and tap <strong>"Add to Home Screen"</strong>.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Load initial Last 50 Clients from server, and persist in mobile localStorage so it works when server is OFF
+  let serverBookings = ([{"id": 4, "code": "UM-F2026-004", "name": "Dr. Shafiqur Rahman & Family", "phone": "01615889900", "package_type": "UMRAH", "package_display": "Umrah Package", "booking_category": "FAMILY", "pax_count": 3, "booking_date": "18 May 2026", "label": "UM-F2026-004 \u2014 Dr. Shafiqur Rahman & Family (Umrah Package \u2022 Family 3 Pax)"}, {"id": 3, "code": "UM-S2026-003", "name": "Md. Rafiqul Islam", "phone": "01912334455", "package_type": "UMRAH", "package_display": "Umrah Package", "booking_category": "SINGLE", "pax_count": 1, "booking_date": "05 Apr 2026", "label": "UM-S2026-003 \u2014 Md. Rafiqul Islam (Umrah Package \u2022 Single)"}, {"id": 2, "code": "HJ-F2026-002", "name": "Alhajj Enamul Haque & Family", "phone": "01819445566", "package_type": "HAJJ", "package_display": "Hajj Package", "booking_category": "FAMILY", "pax_count": 4, "booking_date": "10 Mar 2026", "label": "HJ-F2026-002 \u2014 Alhajj Enamul Haque & Family (Hajj Package \u2022 Family 4 Pax)"}, {"id": 1, "code": "HJ-S2026-001", "name": "Alhajj Md. Mahmudul Hasan", "phone": "01711223344", "package_type": "HAJJ", "package_display": "Hajj Package", "booking_category": "SINGLE", "pax_count": 1, "booking_date": "15 Feb 2026", "label": "HJ-S2026-001 \u2014 Alhajj Md. Mahmudul Hasan (Hajj Package \u2022 Single)"}]).slice(0, 50);
+  if (serverBookings && serverBookings.length > 0) {
+    try { localStorage.setItem('assunnah_cached_bookings', JSON.stringify(serverBookings)); } catch (e) {}
+  } else {
+    try {
+      const cached = JSON.parse(localStorage.getItem('assunnah_cached_bookings') || '[]');
+      if (cached.length > 0) serverBookings = cached.slice(0, 50);
+    } catch (e) {}
+  }
+  let allBookings = serverBookings;
+  let deferredInstallPrompt = null;
+  let sessionHistory = [];
+
+  function isRunningStandalone() {
+    return (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
+           window.navigator.standalone === true;
+  }
+
+  function dismissInstallBanner() {
+    const banner = document.getElementById('installBanner');
+    if (banner) banner.style.display = 'none';
+  }
+
+  if (isRunningStandalone()) {
+    dismissInstallBanner();
+  }
+
+  // Register Service Worker for Offline App Mode (HTTPS GitHub Pages or Local Server)
+  if ('serviceWorker' in navigator && (window.location.protocol === 'https:' || window.location.protocol === 'http:')) {
+    navigator.serviceWorker.register('./sw.js?v=5').catch(function() {});
+  }
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredInstallPrompt = e;
+    if (!isRunningStandalone()) {
+      const banner = document.getElementById('installBanner');
+      if (banner) banner.style.display = 'flex';
+    }
+  });
+
+  window.addEventListener('appinstalled', () => {
+    deferredInstallPrompt = null;
+    dismissInstallBanner();
+    showMobToast('✓ As-Sunnah App Installed on Home Screen!', true);
+  });
+
+  function installMobilePWA() {
+    if (deferredInstallPrompt) {
+      deferredInstallPrompt.prompt();
+      deferredInstallPrompt.userChoice.then((choice) => {
+        if (choice && choice.outcome === 'accepted') {
+          dismissInstallBanner();
+        }
+        deferredInstallPrompt = null;
+      });
+    } else {
+      document.getElementById('installGuideModal').classList.add('open');
+    }
+  }
+
+  function toggleMobTheme() {
+    const cur = document.documentElement.getAttribute('data-theme') || 'light';
+    const next = cur === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('assunnah_theme', next);
+    document.getElementById('mobThemeBtn').innerText = next === 'dark' ? '☀️' : '🌙';
+  }
+
+  function switchMobTab(tab) {
+    document.getElementById('panelExpense').style.display = tab === 'EXPENSE' ? 'block' : 'none';
+    document.getElementById('panelIncome').style.display = tab === 'INCOME' ? 'block' : 'none';
+    document.getElementById('panelBooking').style.display = tab === 'BOOKING' ? 'block' : 'none';
+    document.getElementById('panelClients').style.display = tab === 'CLIENTS' ? 'block' : 'none';
+
+    document.getElementById('tabBtnExpense').classList.toggle('active', tab === 'EXPENSE');
+    document.getElementById('tabBtnIncome').classList.toggle('active', tab === 'INCOME');
+    document.getElementById('tabBtnBooking').classList.toggle('active', tab === 'BOOKING');
+    document.getElementById('tabBtnClients').classList.toggle('active', tab === 'CLIENTS');
+  }
+
+  function filterMobBookings() {
+    allBookings = (allBookings || []).slice(0, 50);
+    const pkg = document.getElementById('mobFilterPkg').value;
+    const cat = document.getElementById('mobFilterCat').value;
+    const expSel = document.getElementById('mobExpBookingId');
+    const incSel = document.getElementById('mobIncBookingId');
+
+    expSel.innerHTML = '<option value="">— General Package Expenditure —</option>';
+    incSel.innerHTML = '<option value="">— Select Booking (Last 50 Clients) —</option>';
+
+    allBookings.forEach(b => {
+      if ((!pkg || b.package_type === pkg) && (!cat || b.booking_category === cat)) {
+        const opt1 = document.createElement('option');
+        opt1.value = b.id;
+        opt1.textContent = b.label;
+        opt1.dataset.pax = b.pax_count;
+        expSel.appendChild(opt1);
+      }
+      const opt2 = document.createElement('option');
+      opt2.value = b.id;
+      opt2.textContent = b.label;
+      incSel.appendChild(opt2);
+    });
+
+    const cnt = allBookings.length;
+    document.getElementById('clientCountBadge').innerText = cnt;
+    document.getElementById('last50HeaderBadge').innerText = `Last ${cnt} Client${cnt === 1 ? '' : 's'}`;
+    renderLast50ClientsList();
+  }
+
+  function renderLast50ClientsList() {
+    const container = document.getElementById('last50ClientsContainer');
+    if (!container) return;
+    const q = (document.getElementById('mobClientSearch').value || '').trim().toLowerCase();
+    const list = allBookings.slice(0, 50).filter(b => {
+      if (!q) return true;
+      return (b.name && b.name.toLowerCase().includes(q)) ||
+             (b.code && b.code.toLowerCase().includes(q)) ||
+             (b.phone && b.phone.toLowerCase().includes(q));
+    });
+
+    if (!list.length) {
+      container.innerHTML = '<div style="text-align:center; padding:20px; color:var(--text-muted);">No matching clients in the last 50 records.</div>';
+      return;
+    }
+
+    container.innerHTML = list.map((b, idx) => `
+      <div class="client-item-card">
+        <div style="min-width:0; flex:1;">
+          <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+            <span style="font-size:0.72rem; font-weight:800; color:var(--brand-navy);">#${idx + 1} • ${b.code}</span>
+            <span class="badge ${b.package_type === 'HAJJ' ? 'badge-hajj' : 'badge-umrah'}" style="font-size:0.66rem; padding:2px 6px;">${b.package_type}</span>
+            <span class="badge ${b.booking_category === 'FAMILY' ? 'badge-family' : 'badge-single'}" style="font-size:0.66rem; padding:2px 6px;">
+              ${b.booking_category === 'FAMILY' ? 'Family (' + b.pax_count + ' Pax)' : 'Single'}
+            </span>
+          </div>
+          <div style="font-weight:800; font-size:0.88rem; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${b.name}</div>
+          <div style="font-size:0.72rem; color:var(--text-muted);">
+            ${b.phone ? '📞 ' + b.phone + ' • ' : ''}${b.booking_date || ''}
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:4px; flex-shrink:0;">
+          <button type="button" class="btn btn-gold btn-sm" style="padding:5px 8px; font-size:0.72rem;" onclick="quickSelectClientForExpense(${b.id}, ${b.pax_count})">🧾 + Bill</button>
+          <button type="button" class="btn btn-success btn-sm" style="padding:5px 8px; font-size:0.72rem;" onclick="quickSelectClientForIncome(${b.id})">৳ + Pay</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function quickSelectClientForExpense(bookingId, pax) {
+    document.getElementById('mobFilterPkg').value = '';
+    document.getElementById('mobFilterCat').value = '';
+    filterMobBookings();
+    document.getElementById('mobExpBookingId').value = String(bookingId);
+    document.getElementById('mobExpPax').value = pax || 1;
+    calcMobExpTotal();
+    switchMobTab('EXPENSE');
+  }
+
+  function quickSelectClientForIncome(bookingId) {
+    filterMobBookings();
+    document.getElementById('mobIncBookingId').value = String(bookingId);
+    switchMobTab('INCOME');
+  }
+
+  function onMobBookingPicked() {
+    const sel = document.getElementById('mobExpBookingId');
+    const opt = sel.options[sel.selectedIndex];
+    if (opt && opt.dataset.pax) {
+      document.getElementById('mobExpPax').value = opt.dataset.pax;
+      calcMobExpTotal();
+    }
+  }
+
+  function onMobCategoryChange() {
+    const cat = document.getElementById('mobExpCategory').value;
+    document.getElementById('mobRouteGroup').style.display = (cat === '5_TRANSPORT') ? 'block' : 'none';
+    document.getElementById('mobClientSelectGroup').style.display = cat.startsWith('OFFICE_') ? 'none' : 'block';
+  }
+
+  function calcMobExpTotal() {
+    const pp = parseFloat(document.getElementById('mobExpPP').value || 0);
+    const pax = parseInt(document.getElementById('mobExpPax').value || 1);
+    if (pp > 0 && pax > 0) {
+      document.getElementById('mobExpAmount').value = (pp * pax).toFixed(2);
+    }
+  }
+
+  function previewMobBill(input) {
+    const img = document.getElementById('mobBillPreviewImg');
+    const txt = document.getElementById('mobBillPreviewText');
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      txt.innerHTML = `<div style="font-weight:800; color:var(--color-income);">✓ Attached: ${file.name}</div>`;
+      if (file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = e => {
+          img.src = e.target.result;
+          img.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+      } else {
+        img.style.display = 'none';
+      }
+    }
+  }
+
+  function showMobToast(msg, isSuccess=true) {
+    const el = document.getElementById('mobToast');
+    el.style.display = 'block';
+    el.style.background = isSuccess ? 'var(--color-income-bg)' : 'var(--color-office-bg)';
+    el.style.color = isSuccess ? 'var(--color-income)' : 'var(--color-office)';
+    el.style.border = `1px solid ${isSuccess ? 'var(--color-income)' : 'var(--color-office)'}`;
+    el.innerHTML = msg;
+    setTimeout(() => { el.style.display = 'none'; }, 6000);
+  }
+
+  function getOfflineQueue() {
+    try {
+      return JSON.parse(localStorage.getItem('assunnah_offline_queue') || '[]');
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function saveToOfflineQueue(item) {
+    const q = getOfflineQueue();
+    q.push(item);
+    localStorage.setItem('assunnah_offline_queue', JSON.stringify(q));
+    updateQueueUI();
+  }
+
+  function updateQueueUI() {
+    const q = getOfflineQueue();
+    const bar = document.getElementById('offlineQueueBar');
+    document.getElementById('queueCount').innerText = q.length;
+    if (q.length > 0) {
+      bar.classList.add('has-pending');
+      document.getElementById('queueSubText').innerText = `${q.length} update(s) saved in mobile. Will auto-sync when server is reachable or tap Sync Now.`;
+    } else {
+      bar.classList.remove('has-pending');
+      document.getElementById('queueSubText').innerText = 'If server is OFF, entries stay saved in mobile & auto-sync when server is reachable.';
+    }
+  }
+
+  function fileToBase64(file) {
+    return new Promise((resolve) => {
+      if (!file) return resolve(null);
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = () => resolve(null);
+      reader.readAsDataURL(file);
+    });
+  }
+
+  const SYNC_ENDPOINTS = [
+    '/api/mobile-sync/',
+    'http://192.168.0.144:8000/api/mobile-sync/',
+    'http://192.168.137.1:8000/api/mobile-sync/'
+  ];
+
+  async function fetchSyncApi(options) {
+    for (const url of SYNC_ENDPOINTS) {
+      if ((window.location.protocol === 'file:' || window.location.protocol === 'content:' || window.location.hostname.endsWith('github.io')) && url.startsWith('/')) continue;
+      try {
+        const resp = await fetch(url, options);
+        if (resp.ok) return resp;
+      } catch (e) {}
+    }
+    throw new Error('All sync endpoints unreachable');
+  }
+
+  function exportOfflineSyncFile() {
+    const q = getOfflineQueue();
+    if (!q.length) {
+      showMobToast('No pending offline entries in mobile queue to export.', false);
+      return;
+    }
+    const blob = new Blob([JSON.stringify({ items: q }, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `As_Sunnah_Mobile_Sync_${new Date().toISOString().slice(0,10)}.json`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    showMobToast(`📥 Downloaded Sync File (${q.length} item(s))! Send it via WhatsApp/USB to Computer and click "Import Mobile Sync File".`, true);
+  }
+
+  async function sendOrQueueItem(item, fileInput) {
+    const file = fileInput && fileInput.files && fileInput.files[0] ? fileInput.files[0] : null;
+    if (file) {
+      item.bill_base64 = await fileToBase64(file);
+      item.bill_filename = file.name;
+    }
+    item.client_sync_id = 'mob_' + Date.now() + '_' + Math.random().toString(36).substring(2, 8);
+
+    try {
+      const resp = await fetchSyncApi({
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: [item] })
+      });
+      const data = await resp.json();
+      if (resp.ok && data.status === 'ok') {
+        const voucher = data.synced && data.synced[0] ? data.synced[0].voucher : 'Saved';
+        showMobToast(`✓ Synced to Computer! Voucher: <strong>${voucher}</strong> (৳ ${item.amount || item.contracted_amount})`, true);
+        addSessionLog(`${voucher} — ৳ ${item.amount || item.contracted_amount} (Synced to Server)`);
+        checkWifiStatus();
+        return true;
+      }
+      throw new Error('Sync failed');
+    } catch (err) {
+      saveToOfflineQueue(item);
+      showMobToast(`💾 Server Not Reachable — Saved in Mobile! (${getOfflineQueue().length} pending). Will sync automatically when server is ON.`, false);
+      addSessionLog(`Saved in Mobile (Pending Sync) — ৳ ${item.amount || item.contracted_amount}`);
+      return false;
+    }
+  }
+
+  async function submitMobExpense(e) {
+    e.preventDefault();
+    const item = {
+      entry_type: 'EXPENSE',
+      category: document.getElementById('mobExpCategory').value,
+      transport_route: document.getElementById('mobTransportRoute').value,
+      booking_id: document.getElementById('mobExpBookingId').value,
+      package_type: document.getElementById('mobFilterPkg').value || 'HAJJ',
+      per_person_cost: document.getElementById('mobExpPP').value || '0',
+      pax_count: document.getElementById('mobExpPax').value || '1',
+      amount: document.getElementById('mobExpAmount').value,
+      payment_method: document.getElementById('mobExpMethod').value,
+      vendor_name: document.getElementById('mobExpVendor').value,
+      description: 'Mobile Bill Upload'
+    };
+    await sendOrQueueItem(item, document.getElementById('mobExpFile'));
+    document.getElementById('mobExpenseForm').reset();
+    document.getElementById('mobBillPreviewImg').style.display = 'none';
+    document.getElementById('mobBillPreviewText').innerHTML = '<div style="font-size:1.8rem;">📷</div><div style="font-weight:800;">Tap to Take Photo of Bill or Choose File</div>';
+    onMobCategoryChange();
+  }
+
+  async function submitMobIncome(e) {
+    e.preventDefault();
+    const item = {
+      entry_type: 'INCOME',
+      booking_id: document.getElementById('mobIncBookingId').value,
+      amount: document.getElementById('mobIncAmount').value,
+      payment_method: document.getElementById('mobIncMethod').value,
+      description: document.getElementById('mobIncDesc').value || 'Mobile Payment Entry'
+    };
+    await sendOrQueueItem(item, null);
+    document.getElementById('mobIncomeForm').reset();
+  }
+
+  function toggleMobNewFamily() {
+    const isFam = document.getElementById('mobNewCat').value === 'FAMILY';
+    document.getElementById('mobNewPaxWrap').style.display = isFam ? 'block' : 'none';
+    if (isFam && document.getElementById('mobNewMembersList').children.length === 0) {
+      syncMobNewMembers(document.getElementById('mobNewPax').value || 2);
+    }
+  }
+
+  function addMobNewMemberRow() {
+    const container = document.getElementById('mobNewMembersList');
+    const idx = container.children.length + 1;
+    const row = document.createElement('div');
+    row.className = 'mob-mem-row';
+    row.style.cssText = 'display:grid; grid-template-columns: 26px 1.2fr 1fr 28px; gap:5px; align-items:center;';
+    row.innerHTML = `
+      <span style="font-size:0.74rem; font-weight:800;">#${idx}</span>
+      <input type="text" class="form-control mob-m-name" placeholder="Member #${idx} Name" style="padding:6px 8px; font-size:0.78rem;">
+      <input type="text" class="form-control mob-m-pass" placeholder="Passport No" style="padding:6px 8px; font-size:0.78rem;">
+      <button type="button" class="btn btn-danger btn-sm" style="padding:4px 6px;" onclick="this.parentElement.remove();">✕</button>
+    `;
+    container.appendChild(row);
+    document.getElementById('mobNewPax').value = Math.max(2, container.children.length);
+  }
+
+  function syncMobNewMembers(cnt) {
+    const target = Math.min(50, Math.max(1, parseInt(cnt || 2)));
+    const container = document.getElementById('mobNewMembersList');
+    while (container.children.length < target) addMobNewMemberRow();
+    while (container.children.length > target && container.children.length > 1) container.lastElementChild.remove();
+  }
+
+  async function submitMobBooking(e) {
+    e.preventDefault();
+    const members = [];
+    document.querySelectorAll('#mobNewMembersList .mob-mem-row').forEach((r, idx) => {
+      const n = r.querySelector('.mob-m-name').value.trim();
+      const p = r.querySelector('.mob-m-pass').value.trim();
+      if (n || p) {
+        members.push({ name: n || `Member #${idx+1}`, passport: p, relation: 'Family Member' });
+      }
+    });
+    const item = {
+      entry_type: 'NEW_BOOKING',
+      package_type: document.getElementById('mobNewPkg').value,
+      booking_category: document.getElementById('mobNewCat').value,
+      client_name: document.getElementById('mobNewName').value,
+      phone: document.getElementById('mobNewPhone').value,
+      passport_no: document.getElementById('mobNewPassport').value,
+      pax_count: document.getElementById('mobNewPax').value || '1',
+      family_members: members.length ? JSON.stringify(members) : '',
+      contracted_amount: document.getElementById('mobNewPrice').value,
+      amount: document.getElementById('mobNewAdvance').value || '0'
+    };
+    await sendOrQueueItem(item, null);
+    document.getElementById('mobBookingForm').reset();
+    document.getElementById('mobNewMembersList').innerHTML = '';
+    toggleMobNewFamily();
+  }
+
+  async function syncOfflineQueue(manualTap=false) {
+    const q = getOfflineQueue();
+    try {
+      if (q.length > 0) {
+        const resp = await fetchSyncApi({
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ items: q })
+        });
+        if (resp.ok) {
+          localStorage.removeItem('assunnah_offline_queue');
+          updateQueueUI();
+          showMobToast(`✓ All ${q.length} mobile offline update(s) synchronized with Computer!`, true);
+          addSessionLog(`Synced ${q.length} queued item(s) to Computer`);
+        } else if (manualTap) {
+          showMobToast(`⚠️ Server returned an error. Updates remain safely saved in mobile.`, false);
+        }
+      }
+      // Also refresh Last 50 Clients from server
+      const statusResp = await fetchSyncApi({ method: 'GET' });
+      if (statusResp.ok) {
+        const data = await statusResp.json();
+        if (data.bookings) {
+          allBookings = data.bookings.slice(0, 50);
+          try { localStorage.setItem('assunnah_cached_bookings', JSON.stringify(allBookings)); } catch (e) {}
+          filterMobBookings();
+        }
+        if (manualTap && q.length === 0) {
+          showMobToast(`✓ Connected to Computer Server! Last 50 Clients list is up to date.`, true);
+        }
+      }
+    } catch (e) {
+      if (manualTap) {
+        showMobToast(`📶 Computer Server is currently OFF or unreachable. Your ${q.length} pending update(s) are safely saved in this mobile (or tap Export File)!`, false);
+      }
+    }
+  }
+
+  async function checkWifiStatus() {
+    const dot = document.getElementById('wifiDot');
+    const txt = document.getElementById('wifiStatusText');
+    try {
+      const resp = await fetchSyncApi({ method: 'GET' });
+      if (resp.ok) {
+        const data = await resp.json();
+        dot.classList.remove('offline');
+        txt.innerText = 'Connected to Computer Wi-Fi';
+        if (data.bookings) {
+          allBookings = data.bookings.slice(0, 50);
+          try { localStorage.setItem('assunnah_cached_bookings', JSON.stringify(allBookings)); } catch (e) {}
+          filterMobBookings();
+        }
+        if (getOfflineQueue().length > 0) {
+          syncOfflineQueue(false);
+        }
+        return;
+      }
+    } catch (e) {}
+    dot.classList.add('offline');
+    txt.innerText = 'Server Offline (Saving in Mobile)';
+  }
+
+  function addSessionLog(text) {
+    sessionHistory.unshift(`${new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})} — ${text}`);
+    document.getElementById('mobRecentLog').innerHTML = sessionHistory.slice(0, 8).map(x => `<div style="padding:6px 0; border-bottom:1px solid var(--border-color);">✓ ${x}</div>`).join('');
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    filterMobBookings();
+    updateQueueUI();
+    checkWifiStatus();
+    setInterval(checkWifiStatus, 10000);
+  });
+</script>
+</body>
+</html>
